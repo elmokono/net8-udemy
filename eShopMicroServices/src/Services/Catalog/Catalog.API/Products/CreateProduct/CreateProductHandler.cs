@@ -3,6 +3,33 @@ using Catalog.API.Models;
 
 namespace Catalog.API.Products.CreateProduct
 {
+    /*
+                +----------------------------+
+                |    CQRS Handler using      |
+                |   Repository Classes       |
+                +----------------------------+
+                            |
+                +----------------------+
+                |  IRequest<Result>     |
+                +----------------------+
+                            |
+    +------------+    +----------------+    +------------+
+    |  Command   | -> |   Repository   | -> |   Result   |
+    |   Query    |    |     (calls     |    |            |
+    |            |    |      DB)       |    |            |
+    +------------+    +----------------+    +------------+
+                            |
+                        +----+
+                        | DB |
+                        +----+
+
+    // CQRS usando MediatR:
+    // - Command o Query implementan IRequest<Result>
+    // - Handler llama al Repository
+    // - Repository accede al DB
+    // - Resultado se devuelve al caller
+    */
+
     public record CreateProductCommand
         (string Name, List<string> Categories, string Description, string ImageFile, decimal Price)
         : ICommand<CreateProductResult>;
